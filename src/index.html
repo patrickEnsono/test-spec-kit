@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ensono-QA</title>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <h1 data-testid="main-title">Ensono-QA</h1>
+        <button class="burger-menu" aria-label="Open menu" data-testid="burger-menu">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+      </div>
+      <div class="mobile-nav-overlay" data-testid="mobile-nav-overlay"></div>
+      <nav class="mobile-nav" data-testid="mobile-nav">
+        <div class="mobile-nav-header">
+          <h3>Choose Option</h3>
+        </div>
+        <ul class="mobile-nav-links">
+          <li><a href="/add-profile.html" data-testid="nav-add-profile">Add Profile</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h2>Quality Assurance Team</h2>
+        <p>Meet our QA professionals and explore their expertise</p>
+      </section>
+
+      <section class="search-section">
+        <div class="search-container">
+          <label for="search-input">Search Team Members:</label>
+          <input
+            type="text"
+            id="search-input"
+            data-testid="search-input"
+            placeholder="Search by name..."
+            autocomplete="off"
+          />
+          <button type="button" id="search-button" data-testid="search-button">Search</button>
+        </div>
+
+        <div id="search-results" data-testid="search-results" class="search-results hidden">
+          <div id="search-loading" data-testid="search-loading" class="search-loading hidden">
+            <p>Searching...</p>
+          </div>
+          <div id="search-error" data-testid="search-error" class="search-error hidden">
+            <!-- Error message will be inserted here -->
+          </div>
+          <div id="results-list" data-testid="results-list" class="results-list">
+            <!-- Search results will be populated here -->
+          </div>
+          <div id="no-results" data-testid="no-results" class="no-results hidden">
+            <p>No team members found. Try searching by name, title, skill, or project.</p>
+            <p>
+              <small
+                >Tip: Make sure you've spelled the name correctly and that the profile has been
+                created.</small
+              >
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="team-overview">
+        <h3>Our QA Team</h3>
+        <div class="team-grid">
+          <div class="team-card" data-testid="patrick-card">
+            <h4>Patrick Hendron</h4>
+            <p class="job-title">Senior QA Engineer</p>
+            <a
+              href="/profile.html?id=patrick-hendron"
+              class="profile-link"
+              data-testid="patrick-profile-link"
+              >View Profile</a
+            >
+          </div>
+
+          <div class="team-card" data-testid="tom-card">
+            <h4>Tom Moor</h4>
+            <p class="job-title">Principal DevOps Engineer</p>
+            <a href="/profile.html?id=tom-moor" class="profile-link" data-testid="tom-profile-link"
+              >View Profile</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Ensono-QA. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="scripts/search.js"></script>
+    <script type="module" src="scripts/team-display.js"></script>
+    <script type="module" src="scripts/burger-menu.js"></script>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile - Ensono QA</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav">
+        <div class="nav-brand">
+          <a href="/" data-testid="nav-home-logo">
+            <h1>Ensono QA</h1>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main">
+      <!-- Loading state -->
+      <div id="loading-container" data-testid="loading-container" class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>Loading profile...</p>
+      </div>
+
+      <!-- Error state -->
+      <div id="error-container" data-testid="error-container" class="error-container hidden">
+        <h2>Error Loading Profile</h2>
+        <p id="error-message" data-testid="error-message"></p>
+        <button id="retry-button" data-testid="retry-button" class="btn btn-primary">Retry</button>
+        <a href="/" class="btn btn-secondary">Back to Home</a>
+      </div>
+
+      <!-- Profile content -->
+      <div id="profile-container" data-testid="profile-container" class="profile-container hidden">
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <img id="profile-avatar" data-testid="profile-avatar" src="" alt="" />
+          </div>
+          <div class="profile-info">
+            <h1 id="profile-name" data-testid="profile-name"></h1>
+            <h2 id="profile-title" data-testid="profile-title"></h2>
+            <div class="profile-meta">
+              <p>
+                <strong>Email:</strong> <span id="profile-email" data-testid="profile-email"></span>
+              </p>
+              <p>
+                <strong>Location:</strong>
+                <span id="profile-location" data-testid="profile-location"></span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <section class="profile-section">
+          <h3>About</h3>
+          <p id="profile-bio" data-testid="profile-bio"></p>
+        </section>
+
+        <section class="profile-section">
+          <h3>Skills</h3>
+          <div id="profile-skills" data-testid="profile-skills" class="skills-container"></div>
+        </section>
+
+        <section class="profile-section">
+          <h3>Projects</h3>
+          <div
+            id="profile-projects"
+            data-testid="profile-projects"
+            class="projects-container"
+          ></div>
+        </section>
+
+        <div class="profile-actions">
+          <a href="/" class="btn btn-primary" data-testid="back-to-home">Back to Home</a>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="/scripts/profile.js"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+# Ignore patterns for Prettier
+node_modules/
+dist/
+test-results/
+playwright-report/
+*.log
+coverage/

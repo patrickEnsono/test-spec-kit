@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add New Profile - Ensono QA</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/add-profile.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <h1><a href="/" data-testid="nav-home">Ensono-QA</a></h1>
+        <button class="burger-menu" aria-label="Open menu" data-testid="burger-menu">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+      </div>
+      <div class="mobile-nav-overlay" data-testid="mobile-nav-overlay"></div>
+      <nav class="mobile-nav" data-testid="mobile-nav">
+        <div class="mobile-nav-header">
+          <h3>Choose Option</h3>
+        </div>
+        <ul class="mobile-nav-links">
+          <li>
+            <a href="/add-profile.html" data-testid="nav-add-profile" class="active">Add Profile</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="form-header">
+          <h1 data-testid="page-title">Add New Profile</h1>
+          <p data-testid="page-description">
+            Create a new team member profile by filling out the form below.
+          </p>
+        </div>
+
+        <form id="add-profile-form" class="profile-form" data-testid="add-profile-form">
+          <!-- Profile Picture Upload -->
+          <div class="form-section">
+            <h2>Profile Picture</h2>
+            <div class="image-upload-container">
+              <div class="image-preview" data-testid="image-preview">
+                <img
+                  id="profile-image-preview"
+                  src="/images/default-avatar.svg"
+                  alt="Profile preview"
+                />
+                <div class="upload-overlay">
+                  <span>Click to upload image</span>
+                </div>
+              </div>
+              <input
+                type="file"
+                id="profile-image"
+                name="profileImage"
+                accept="image/*"
+                data-testid="profile-image-input"
+                class="hidden-file-input"
+              />
+              <button type="button" class="upload-btn" data-testid="upload-btn">
+                Choose Image
+              </button>
+              <p class="upload-help">Recommended: Square image, max 2MB</p>
+            </div>
+          </div>
+
+          <!-- Basic Information -->
+          <div class="form-section">
+            <h2>Basic Information</h2>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  data-testid="name-input"
+                  placeholder="Enter full name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="title">Job Title *</label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  required
+                  data-testid="title-input"
+                  placeholder="e.g., Senior QA Engineer"
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  data-testid="email-input"
+                  placeholder="email@example.com"
+                />
+              </div>
+              <div class="form-group">
+                <label for="location">Location</label>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  data-testid="location-input"
+                  placeholder="City, Country"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- About Section -->
+          <div class="form-section">
+            <h2>About</h2>
+            <div class="form-group">
+              <label for="about">Bio/Description</label>
+              <textarea
+                id="about"
+                name="about"
+                rows="4"
+                data-testid="about-input"
+                placeholder="Tell us about yourself, your experience, and what you're passionate about..."
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Skills Section -->
+          <div class="form-section">
+            <h2>Skills</h2>
+            <div class="form-group">
+              <label for="skills-input">Add Skills</label>
+              <div class="skills-input-container">
+                <input
+                  type="text"
+                  id="skills-input"
+                  data-testid="skills-input"
+                  placeholder="Type a skill and press Enter"
+                />
+                <button type="button" class="add-skill-btn" data-testid="add-skill-btn">Add</button>
+              </div>
+              <div class="skills-list" data-testid="skills-list">
+                <!-- Skills will be added here dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Projects Section -->
+          <div class="form-section">
+            <h2>Projects</h2>
+            <div class="projects-container" data-testid="projects-container">
+              <!-- Projects will be added here dynamically -->
+            </div>
+            <button type="button" class="add-project-btn" data-testid="add-project-btn">
+              + Add Project
+            </button>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" data-testid="cancel-btn">Cancel</button>
+            <button type="submit" class="btn btn-primary" data-testid="submit-btn">
+              Create Profile
+            </button>
+          </div>
+        </form>
+
+        <!-- Success/Error Messages -->
+        <div id="form-messages" class="form-messages hidden" data-testid="form-messages">
+          <!-- Messages will be shown here -->
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="scripts/add-profile.js"></script>
+    <script type="module" src="scripts/burger-menu.js"></script>
+  </body>
+</html>
