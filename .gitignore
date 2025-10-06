@@ -58,6 +58,6 @@ videos/
 logs/
 
 # Package lock files (choose one based on package manager preference)
-package-lock.json
+# package-lock.json (uncommented for GitHub Actions caching)
 # yarn.lock
 # pnpm-lock.yaml
