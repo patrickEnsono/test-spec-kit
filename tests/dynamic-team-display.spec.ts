@@ -77,7 +77,6 @@ test.describe('Dynamic Team Display Tests', () => {
 
     // Count team cards to verify the new user appears
     const teamCardCount = await page.locator('.team-card').count();
-    console.log(`Team card count after navigation: ${teamCardCount}`);
 
     // We should have 3 team cards now (2 original + 1 new)
     expect(teamCardCount).toBe(3);
