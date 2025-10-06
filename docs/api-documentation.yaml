@@ -5,13 +5,13 @@ info:
     A comprehensive API for managing QA team member profiles, including search functionality, 
     profile management, and team directory operations. This API provides endpoints for 
     retrieving, creating, and searching team member information.
-    
+
     **Features:**
     - Search team members by name, title, skills, or projects
     - Retrieve individual team member profiles
     - Add new team members to the directory
     - Get complete team directory
-    
+
     **Data Storage:**
     The API uses localStorage for data persistence in the frontend application.
   version: 1.0.0
@@ -46,16 +46,16 @@ paths:
                 items:
                   $ref: '#/components/schemas/TeamMember'
               example:
-                - id: "patrick-hendron"
-                  name: "Patrick Hendron"
-                  title: "Senior QA Engineer"
-                  email: "patrick.hendron@ensono.com"
-                  location: "Belfast, UK"
-                  bio: "Passionate QA Engineer with 8+ years of experience"
-                  skills: ["Test Automation", "Playwright", "Selenium"]
+                - id: 'patrick-hendron'
+                  name: 'Patrick Hendron'
+                  title: 'Senior QA Engineer'
+                  email: 'patrick.hendron@ensono.com'
+                  location: 'Belfast, UK'
+                  bio: 'Passionate QA Engineer with 8+ years of experience'
+                  skills: ['Test Automation', 'Playwright', 'Selenium']
                   projects: []
-                  avatar: "/images/default-avatar.svg"
-                  joinedDate: "2024-01-15"
+                  avatar: '/images/default-avatar.svg'
+                  joinedDate: '2024-01-15'
         '500':
           $ref: '#/components/responses/InternalServerError'
 
@@ -72,15 +72,15 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateTeamMemberRequest'
             example:
-              id: "new-member-123"
-              name: "Jane Smith"
-              title: "QA Engineer"
-              email: "jane.smith@ensono.com"
-              location: "London, UK"
-              bio: "Experienced QA professional"
-              skills: ["Manual Testing", "API Testing"]
+              id: 'new-member-123'
+              name: 'Jane Smith'
+              title: 'QA Engineer'
+              email: 'jane.smith@ensono.com'
+              location: 'London, UK'
+              bio: 'Experienced QA professional'
+              skills: ['Manual Testing', 'API Testing']
               projects: []
-              avatar: "/images/default-avatar.svg"
+              avatar: '/images/default-avatar.svg'
       responses:
         '201':
           description: Team member created successfully
@@ -109,7 +109,7 @@ paths:
           description: Unique identifier of the team member
           schema:
             type: string
-            example: "patrick-hendron"
+            example: 'patrick-hendron'
       responses:
         '200':
           description: Successfully retrieved team member
@@ -139,7 +139,7 @@ paths:
           schema:
             type: string
             minLength: 1
-            example: "QA Engineer"
+            example: 'QA Engineer'
         - name: limit
           in: query
           required: false
@@ -166,12 +166,12 @@ paths:
                 $ref: '#/components/schemas/SearchResponse'
               example:
                 results:
-                  - id: "patrick-hendron"
-                    name: "Patrick Hendron"
-                    title: "Senior QA Engineer"
-                    email: "patrick.hendron@ensono.com"
-                    location: "Belfast, UK"
-                    matchType: "title"
+                  - id: 'patrick-hendron'
+                    name: 'Patrick Hendron'
+                    title: 'Senior QA Engineer'
+                    email: 'patrick.hendron@ensono.com'
+                    location: 'Belfast, UK'
+                    matchType: 'title'
                 total: 1
         '400':
           $ref: '#/components/responses/ValidationError'
@@ -193,39 +193,39 @@ components:
         id:
           type: string
           description: Unique identifier for the team member
-          example: "patrick-hendron"
+          example: 'patrick-hendron'
         name:
           type: string
           description: Full name of the team member
-          example: "Patrick Hendron"
+          example: 'Patrick Hendron'
         title:
           type: string
           description: Job title or role
-          example: "Senior QA Engineer"
+          example: 'Senior QA Engineer'
         email:
           type: string
           format: email
           description: Email address
-          example: "patrick.hendron@ensono.com"
+          example: 'patrick.hendron@ensono.com'
         location:
           type: string
           description: Geographic location
-          example: "Belfast, UK"
+          example: 'Belfast, UK'
         bio:
           type: string
           description: Professional biography or description
-          example: "Passionate QA Engineer with 8+ years of experience"
+          example: 'Passionate QA Engineer with 8+ years of experience'
         avatar:
           type: string
           format: uri
           description: URL to profile picture
-          example: "/images/default-avatar.svg"
+          example: '/images/default-avatar.svg'
         skills:
           type: array
           items:
             type: string
           description: List of professional skills
-          example: ["Test Automation", "Playwright", "Selenium"]
+          example: ['Test Automation', 'Playwright', 'Selenium']
         projects:
           type: array
           items:
@@ -235,12 +235,12 @@ components:
           type: string
           format: date
           description: Date the team member joined
-          example: "2024-01-15"
+          example: '2024-01-15'
         matchType:
           type: string
           enum: [name, title, skill, project]
           description: Type of match found during search (only present in search results)
-          example: "title"
+          example: 'title'
 
     Project:
       type: object
@@ -252,30 +252,30 @@ components:
         name:
           type: string
           description: Project name
-          example: "E-commerce Platform Testing"
+          example: 'E-commerce Platform Testing'
         role:
           type: string
           description: Role in the project
-          example: "Lead QA Engineer"
+          example: 'Lead QA Engineer'
         description:
           type: string
           description: Project description and responsibilities
-          example: "Led comprehensive testing strategy for a multi-million pound e-commerce platform"
+          example: 'Led comprehensive testing strategy for a multi-million pound e-commerce platform'
         technologies:
           type: array
           items:
             type: string
           description: Technologies used in the project
-          example: ["Playwright", "TypeScript", "Docker", "Jenkins"]
+          example: ['Playwright', 'TypeScript', 'Docker', 'Jenkins']
         duration:
           type: string
           description: Project duration
-          example: "12 months"
+          example: '12 months'
         link:
           type: string
           format: uri
           description: Link to project repository or documentation
-          example: "https://github.com/company/project"
+          example: 'https://github.com/company/project'
 
     CreateTeamMemberRequest:
       type: object
@@ -288,41 +288,41 @@ components:
         id:
           type: string
           description: Unique identifier for the new team member
-          example: "new-member-123"
+          example: 'new-member-123'
         name:
           type: string
           minLength: 1
           description: Full name of the team member
-          example: "Jane Smith"
+          example: 'Jane Smith'
         title:
           type: string
           minLength: 1
           description: Job title or role
-          example: "QA Engineer"
+          example: 'QA Engineer'
         email:
           type: string
           format: email
           description: Email address (must be unique)
-          example: "jane.smith@ensono.com"
+          example: 'jane.smith@ensono.com'
         location:
           type: string
           description: Geographic location
-          example: "London, UK"
+          example: 'London, UK'
         bio:
           type: string
           description: Professional biography or description
-          example: "Experienced QA professional"
+          example: 'Experienced QA professional'
         avatar:
           type: string
           format: uri
           description: URL to profile picture
-          example: "/images/default-avatar.svg"
+          example: '/images/default-avatar.svg'
         skills:
           type: array
           items:
             type: string
           description: List of professional skills
-          example: ["Manual Testing", "API Testing"]
+          example: ['Manual Testing', 'API Testing']
         projects:
           type: array
           items:
@@ -332,7 +332,7 @@ components:
           type: string
           format: date
           description: Date the team member joined (defaults to current date)
-          example: "2024-01-15"
+          example: '2024-01-15'
 
     SearchResponse:
       type: object
@@ -356,11 +356,11 @@ components:
         error:
           type: string
           description: Error type or code
-          example: "VALIDATION_ERROR"
+          example: 'VALIDATION_ERROR'
         message:
           type: string
           description: Human-readable error message
-          example: "Name, title, and email are required fields"
+          example: 'Name, title, and email are required fields'
         status:
           type: integer
           description: HTTP status code
@@ -378,8 +378,8 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            error: "VALIDATION_ERROR"
-            message: "Name, title, and email are required fields"
+            error: 'VALIDATION_ERROR'
+            message: 'Name, title, and email are required fields'
             status: 400
 
     ConflictError:
@@ -389,8 +389,8 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            error: "DUPLICATE_EMAIL"
-            message: "A team member with this email already exists"
+            error: 'DUPLICATE_EMAIL'
+            message: 'A team member with this email already exists'
             status: 409
 
     NotFoundError:
@@ -400,8 +400,8 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            error: "USER_NOT_FOUND"
-            message: "Team member with ID \"invalid-id\" not found"
+            error: 'USER_NOT_FOUND'
+            message: 'Team member with ID "invalid-id" not found'
             status: 404
 
     SearchNotFoundError:
@@ -411,8 +411,8 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            error: "USER_NOT_FOUND"
-            message: "No users found matching \"nonexistent\""
+            error: 'USER_NOT_FOUND'
+            message: 'No users found matching "nonexistent"'
             status: 404
 
     InternalServerError:
@@ -422,8 +422,8 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
           example:
-            error: "INTERNAL_ERROR"
-            message: "An unexpected error occurred"
+            error: 'INTERNAL_ERROR'
+            message: 'An unexpected error occurred'
             status: 500
 
 tags:

@@ -145,6 +145,24 @@ test('should create profile and find it immediately', async ({ page }) => {
 });
 ```
 
+## 🤖 AI Test Generation
+
+The project includes comprehensive AI prompts for generating Playwright tests:
+
+📋 **[PLAYWRIGHT_PROMPTS.md](PLAYWRIGHT_PROMPTS.md)** - 10 specialized prompts covering:
+
+- **Form Testing**: Validation, submission, error handling patterns
+- **Search Integration**: All search types with result verification  
+- **Error Handling**: Comprehensive edge case and failure scenarios
+- **Data Integrity**: End-to-end data validation workflows
+- **CI/CD Integration**: Optimized tests for automated pipelines
+- **Page Object Model**: Migration patterns for better maintainability
+- **Performance Testing**: Load handling and response time validation
+- **Mobile/Responsive**: Cross-device and viewport testing
+- **End-to-End Journeys**: Complete user workflow validation
+
+These prompts are based on our established testing patterns and generate tests that follow the same reliability practices used in this project (manual form submission, proper waits, comprehensive error handling).
+
 ## Scripts
 
 | Command               | Description                        |
