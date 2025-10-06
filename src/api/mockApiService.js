@@ -1,5 +1,7 @@
 import { mockData } from './mockData.js';
 
+const NO_RESULT_QUERY_LENGTH_THRESHOLD = 6;
+
 /**
  * Get all team members from localStorage or fallback to mock data
  */
@@ -90,7 +92,7 @@ export async function searchTeamMembers(query) {
   });
 
   // If no results found and query seems like a very specific search, throw an error
-  if (results.length === 0 && normalizedQuery.length > 6) {
+  if (results.length === 0 && normalizedQuery.length > NO_RESULT_QUERY_LENGTH_THRESHOLD) {
     const error = new Error(`No users found matching "${query}"`);
     error.status = 404;
     error.code = 'USER_NOT_FOUND';

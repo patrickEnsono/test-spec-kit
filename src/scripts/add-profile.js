@@ -1,5 +1,7 @@
 import { addTeamMember } from '../api/mockApiService.js';
 
+const PROFILE_REDIRECT_DELAY_MS = 3000;
+
 class AddProfileManager {
   constructor() {
     this.form = document.getElementById('add-profile-form');
@@ -359,7 +361,7 @@ class AddProfileManager {
       ); // Redirect to new profile after a delay (increased to 3 seconds)
       setTimeout(() => {
         window.location.href = `/profile.html?id=${profileData.id}`;
-      }, 3000);
+      }, PROFILE_REDIRECT_DELAY_MS);
     } catch (error) {
       console.error('Error creating profile:', error);
 
@@ -412,12 +414,15 @@ class AddProfileManager {
     const baseId = name
       .toLowerCase()
       .replace(/[^a-z0-9]/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '');
-
-    // Add timestamp to ensure uniqueness
-    const timestamp = Date.now();
-    return `${baseId}-${timestamp}`;
+      .replace(/-+/g, '-');
+    // Use crypto.randomUUID if available for unique IDs, otherwise fallback to timestamp
+    let uniquePart;
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+      uniquePart = window.crypto.randomUUID();
+    } else {
+      uniquePart = Date.now();
+    }
+    return `${baseId}-${uniquePart}`;
   }
 
   showMessage(message, type) {

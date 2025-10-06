@@ -5,6 +5,9 @@
 
 import { getAllTeamMembers } from '../api/mockApiService.js';
 
+const TITLE_TRUNCATE_LENGTH = 30;
+const NAME_TRUNCATE_LENGTH = 30;
+
 class TeamDisplayManager {
   constructor() {
     this.teamGrid = document.querySelector('.team-grid');
@@ -43,11 +46,15 @@ class TeamDisplayManager {
 
     // Truncate long names for better display
     const displayName =
-      member.name.length > 20 ? member.name.substring(0, 18) + '...' : member.name;
+      member.name.length > NAME_TRUNCATE_LENGTH
+        ? member.name.substring(0, NAME_TRUNCATE_LENGTH - 2) + '...'
+        : member.name;
 
     // Truncate long titles for better display
     const displayTitle =
-      member.title.length > 30 ? member.title.substring(0, 28) + '...' : member.title;
+      member.title.length > TITLE_TRUNCATE_LENGTH
+        ? member.title.substring(0, TITLE_TRUNCATE_LENGTH - 2) + '...'
+        : member.title;
 
     card.innerHTML = `
       <h4 title="${this.escapeHtml(member.name)}">${this.escapeHtml(displayName)}</h4>

@@ -76,7 +76,7 @@ class SearchManager {
   }
 
   async performSearch(query) {
-    if (!query || query.trim().length < 1) {
+    if (!query.trim()) {
       this.hideResults();
       return;
     }

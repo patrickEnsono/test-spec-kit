@@ -878,7 +878,10 @@ test.describe('Error Handling Tests', () => {
     await page.goto('http://127.0.0.1:3000/');
 
     // Corrupt localStorage with invalid JSON using string evaluation
-    await page.evaluate('localStorage.setItem("teamMembers", "{invalid json}")');
+    // Use a more realistic JSON syntax error (e.g., missing closing brace)
+    await page.evaluate(
+      'localStorage.setItem("teamMembers", "{\\"id\\": 123, \\"name\\": \\"Test User\\"")'
+    );
 
     // Reload page - should not crash but may show empty state
     await page.reload();
