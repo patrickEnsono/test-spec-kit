@@ -60,12 +60,24 @@ jobs:
             echo "### 📊 Test Summary" >> $GITHUB_STEP_SUMMARY
             # Parse test results if jq is available
             if command -v jq &> /dev/null; then
-              TOTAL=$(jq '.stats.total' test-results/results.json 2>/dev/null || echo "N/A")
-              PASSED=$(jq '.stats.passed' test-results/results.json 2>/dev/null || echo "N/A")
-              FAILED=$(jq '.stats.failed' test-results/results.json 2>/dev/null || echo "N/A")
+              EXPECTED=$(jq '.stats.expected' test-results/results.json 2>/dev/null || echo "0")
+              UNEXPECTED=$(jq '.stats.unexpected' test-results/results.json 2>/dev/null || echo "0")
+              SKIPPED=$(jq '.stats.skipped' test-results/results.json 2>/dev/null || echo "0")
+              FLAKY=$(jq '.stats.flaky' test-results/results.json 2>/dev/null || echo "0")
+              
+              # Calculate total (expected + unexpected + skipped + flaky)
+              if [[ "$EXPECTED" =~ ^[0-9]+$ ]] && [[ "$UNEXPECTED" =~ ^[0-9]+$ ]] && [[ "$SKIPPED" =~ ^[0-9]+$ ]] && [[ "$FLAKY" =~ ^[0-9]+$ ]]; then
+                TOTAL=$((EXPECTED + UNEXPECTED + SKIPPED + FLAKY))
+              else
+                TOTAL="N/A"
+              fi
               echo "- Total tests: $TOTAL" >> $GITHUB_STEP_SUMMARY
-              echo "- Passed: ✅ $PASSED" >> $GITHUB_STEP_SUMMARY
-              echo "- Failed: ❌ $FAILED" >> $GITHUB_STEP_SUMMARY
+              echo "- Passed: ✅ $EXPECTED" >> $GITHUB_STEP_SUMMARY
+              echo "- Failed: ❌ $UNEXPECTED" >> $GITHUB_STEP_SUMMARY
+              echo "- Skipped: ⏭️ $SKIPPED" >> $GITHUB_STEP_SUMMARY
+              if [ "$FLAKY" != "0" ]; then
+                echo "- Flaky: 🔄 $FLAKY" >> $GITHUB_STEP_SUMMARY
+              fi
             fi
           fi
 
