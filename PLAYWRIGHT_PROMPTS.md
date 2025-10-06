@@ -208,7 +208,7 @@ Create Playwright tests optimized for CI/CD following our GitHub Actions pattern
 
 ## 7. Page Object Model Migration Prompt
 
-```
+````
 Convert existing Playwright tests to Page Object Model following our established patterns:
 
 **Current Test Patterns to Preserve:**
@@ -222,33 +222,35 @@ Convert existing Playwright tests to Page Object Model following our established
 ```typescript
 export class AddProfilePage {
   constructor(private page: Page) {}
-  
+
   async fillBasicInfo(user: UserData) {
     await this.page.fill('[data-testid="name-input"]', user.name);
     await this.page.fill('[data-testid="title-input"]', user.title);
     // ... other fields
   }
-  
+
   async submitForm() {
     await this.page.evaluate(() => {
       const form = document.querySelector('form');
       if (form) form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
     });
   }
-  
+
   async waitForSuccess() {
     await this.page.waitForSelector('.form-messages:not(.hidden)', { timeout: 5000 });
     await expect(this.page.locator('.form-messages')).toContainText('Profile created successfully');
   }
 }
-```
+````
 
 **Migration Requirements:**
+
 - Maintain all existing test coverage
 - Reduce code duplication by 60-70%
 - Improve readability without losing functionality
 - Keep manual form submission pattern
 - Preserve error handling robustness
+
 ```
 
 **Use Case:** When refactoring existing tests to use Page Object Model for better maintainability.
@@ -258,9 +260,11 @@ export class AddProfilePage {
 ## 8. Performance Testing Prompt
 
 ```
+
 Generate Playwright performance tests following our application patterns:
 
 **Performance Test Scenarios:**
+
 - Large dataset handling (100+ profiles)
 - Search performance with large datasets
 - Form submission with multiple projects/skills
@@ -269,6 +273,7 @@ Generate Playwright performance tests following our application patterns:
 - Memory usage during long sessions
 
 **Test Implementation:**
+
 - Use our established data creation patterns
 - Create large datasets programmatically
 - Measure response times: `const startTime = Date.now(); ... const duration = Date.now() - startTime;`
@@ -276,11 +281,13 @@ Generate Playwright performance tests following our application patterns:
 - Validate application remains responsive
 
 **Performance Assertions:**
+
 - Search results appear within acceptable timeframe
 - Form submissions complete without timeout
 - Application handles localStorage limits gracefully
 - No memory leaks during extended usage
 - UI remains responsive during data operations
+
 ```
 
 **Use Case:** When you need to validate application performance under various load conditions.
@@ -290,15 +297,18 @@ Generate Playwright performance tests following our application patterns:
 ## 9. Mobile/Responsive Testing Prompt
 
 ```
+
 Create mobile-responsive Playwright tests following our burger menu patterns:
 
 **Mobile Testing Patterns:**
+
 - Burger menu interaction: `await page.locator('[data-testid="burger-menu"]').click();`
 - Mobile navigation testing: `await expect(page.locator('[data-testid="mobile-nav"]')).toHaveClass(/active/);`
 - Overlay interaction: `await page.locator('[data-testid="mobile-nav-overlay"]').click();`
 - Keyboard navigation: `await page.keyboard.press('Escape');`
 
 **Responsive Test Requirements:**
+
 - Test burger menu open/close functionality
 - Verify mobile navigation works correctly
 - Test form usability on mobile viewports
@@ -307,10 +317,12 @@ Create mobile-responsive Playwright tests following our burger menu patterns:
 - Test landscape/portrait orientation handling
 
 **Viewport Testing:**
+
 - Desktop: 1920x1080
 - Tablet: 768x1024
 - Mobile: 375x667
 - Test form layouts and navigation at each size
+
 ```
 
 **Use Case:** When you need to ensure your application works correctly across different device sizes and orientations.
@@ -320,9 +332,11 @@ Create mobile-responsive Playwright tests following our burger menu patterns:
 ## 10. End-to-End User Journey Prompt
 
 ```
+
 Create comprehensive end-to-end user journey tests following our integration patterns:
 
 **Complete User Journeys:**
+
 1. **New User Onboarding:**
    - Navigate to add-profile page
    - Fill comprehensive profile (all fields)
@@ -344,12 +358,14 @@ Create comprehensive end-to-end user journey tests following our integration pat
    - Verify data integrity across all operations
 
 **Journey Testing Patterns:**
+
 - Use our established navigation patterns
 - Include error handling at each step
 - Verify data persistence throughout journey
 - Test browser back/forward navigation
 - Include mobile responsiveness checks
 - Validate performance across full journey
+
 ```
 
 **Use Case:** When you need to test complete user workflows from start to finish.
@@ -371,6 +387,7 @@ Create comprehensive end-to-end user journey tests following our integration pat
 ### Example Usage:
 
 ```
+
 Using prompt #2 (Form Testing) for a login form:
 
 "Create Playwright tests for a login form with the following requirements, using our established form testing patterns:
@@ -378,17 +395,20 @@ Using prompt #2 (Form Testing) for a login form:
 [Include the full prompt #2 content]
 
 My specific form has:
+
 - Username field: [data-testid="username-input"]
-- Password field: [data-testid="password-input"] 
+- Password field: [data-testid="password-input"]
 - Remember me checkbox: [data-testid="remember-checkbox"]
 - Submit button: [data-testid="login-submit"]
 - Error messages appear in: .login-error-message
 
 Additional validation needed:
+
 - Invalid credentials handling
 - Account lockout after failed attempts
 - Password strength validation
-"
+  "
+
 ```
 
 ## 🏗️ Architecture Context
@@ -427,3 +447,4 @@ These prompts evolve with our testing practices. When you discover new patterns 
 ---
 
 *Generated for test-spec-kit project - A comprehensive QA team profile management application with 45 Playwright tests and full CI/CD integration.*
+```

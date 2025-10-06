@@ -152,7 +152,7 @@ The project includes comprehensive AI prompts for generating Playwright tests:
 📋 **[PLAYWRIGHT_PROMPTS.md](PLAYWRIGHT_PROMPTS.md)** - 10 specialized prompts covering:
 
 - **Form Testing**: Validation, submission, error handling patterns
-- **Search Integration**: All search types with result verification  
+- **Search Integration**: All search types with result verification
 - **Error Handling**: Comprehensive edge case and failure scenarios
 - **Data Integrity**: End-to-end data validation workflows
 - **CI/CD Integration**: Optimized tests for automated pipelines
