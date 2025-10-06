@@ -1,0 +1,483 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Ensono QA Team Management API",
+    "description": "A comprehensive API for managing QA team member profiles, including search functionality, profile management, and team directory operations. This API provides endpoints for retrieving, creating, and searching team member information.\n\n**Features:**\n- Search team members by name, title, skills, or projects\n- Retrieve individual team member profiles\n- Add new team members to the directory\n- Get complete team directory\n\n**Data Storage:**\nThe API uses localStorage for data persistence in the frontend application.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Ensono QA Team",
+      "email": "qa-team@ensono.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Local development server"
+    },
+    {
+      "url": "http://localhost:3001/api",
+      "description": "Alternative local server"
+    }
+  ],
+  "paths": {
+    "/team-members": {
+      "get": {
+        "summary": "Get all team members",
+        "description": "Retrieves a complete list of all team members in the QA directory",
+        "operationId": "getAllTeamMembers",
+        "tags": ["Team Members"],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved all team members",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TeamMember"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new team member",
+        "description": "Creates a new team member profile in the directory",
+        "operationId": "addTeamMember",
+        "tags": ["Team Members"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTeamMemberRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Team member created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamMember"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/team-members/{id}": {
+      "get": {
+        "summary": "Get team member by ID",
+        "description": "Retrieves a specific team member's profile information",
+        "operationId": "getTeamMember",
+        "tags": ["Team Members"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the team member",
+            "schema": {
+              "type": "string",
+              "example": "patrick-hendron"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved team member",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamMember"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/team-members/search": {
+      "get": {
+        "summary": "Search team members",
+        "description": "Search for team members by name, title, skills, or project information. Returns matching results with match type indicators.",
+        "operationId": "searchTeamMembers",
+        "tags": ["Search"],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "Search query string",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "example": "QA Engineer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of results to return",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "description": "Number of results to skip for pagination",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search completed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/SearchNotFoundError"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TeamMember": {
+        "type": "object",
+        "required": ["id", "name", "title", "email"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the team member",
+            "example": "patrick-hendron"
+          },
+          "name": {
+            "type": "string",
+            "description": "Full name of the team member",
+            "example": "Patrick Hendron"
+          },
+          "title": {
+            "type": "string",
+            "description": "Job title or role",
+            "example": "Senior QA Engineer"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address",
+            "example": "patrick.hendron@ensono.com"
+          },
+          "location": {
+            "type": "string",
+            "description": "Geographic location",
+            "example": "Belfast, UK"
+          },
+          "bio": {
+            "type": "string",
+            "description": "Professional biography or description",
+            "example": "Passionate QA Engineer with 8+ years of experience"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to profile picture",
+            "example": "/images/default-avatar.svg"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of professional skills",
+            "example": ["Test Automation", "Playwright", "Selenium"]
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Project"
+            },
+            "description": "List of projects the member has worked on"
+          },
+          "joinedDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Date the team member joined",
+            "example": "2024-01-15"
+          },
+          "matchType": {
+            "type": "string",
+            "enum": ["name", "title", "skill", "project"],
+            "description": "Type of match found during search (only present in search results)",
+            "example": "title"
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "required": ["name", "role", "description"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Project name",
+            "example": "E-commerce Platform Testing"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role in the project",
+            "example": "Lead QA Engineer"
+          },
+          "description": {
+            "type": "string",
+            "description": "Project description and responsibilities",
+            "example": "Led comprehensive testing strategy for a multi-million pound e-commerce platform"
+          },
+          "technologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Technologies used in the project",
+            "example": ["Playwright", "TypeScript", "Docker", "Jenkins"]
+          },
+          "duration": {
+            "type": "string",
+            "description": "Project duration",
+            "example": "12 months"
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Link to project repository or documentation",
+            "example": "https://github.com/company/project"
+          }
+        }
+      },
+      "CreateTeamMemberRequest": {
+        "type": "object",
+        "required": ["id", "name", "title", "email"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the new team member",
+            "example": "new-member-123"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Full name of the team member",
+            "example": "Jane Smith"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Job title or role",
+            "example": "QA Engineer"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address (must be unique)",
+            "example": "jane.smith@ensono.com"
+          },
+          "location": {
+            "type": "string",
+            "description": "Geographic location",
+            "example": "London, UK"
+          },
+          "bio": {
+            "type": "string",
+            "description": "Professional biography or description",
+            "example": "Experienced QA professional"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to profile picture",
+            "example": "/images/default-avatar.svg"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of professional skills",
+            "example": ["Manual Testing", "API Testing"]
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Project"
+            },
+            "description": "List of projects the member has worked on"
+          },
+          "joinedDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Date the team member joined (defaults to current date)",
+            "example": "2024-01-15"
+          }
+        }
+      },
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TeamMember"
+            },
+            "description": "Array of matching team members"
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total number of matching results",
+            "example": 1
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["error", "message"],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error type or code",
+            "example": "VALIDATION_ERROR"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message",
+            "example": "Name, title, and email are required fields"
+          },
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code",
+            "example": 400
+          },
+          "details": {
+            "type": "object",
+            "description": "Additional error details",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "responses": {
+      "ValidationError": {
+        "description": "Request validation failed",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "ConflictError": {
+        "description": "Resource conflict (e.g., duplicate email)",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFoundError": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "SearchNotFoundError": {
+        "description": "No search results found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Team Members",
+      "description": "Operations related to team member profiles"
+    },
+    {
+      "name": "Search",
+      "description": "Search functionality for finding team members"
+    }
+  ],
+  "externalDocs": {
+    "description": "Project Repository",
+    "url": "https://github.com/patrickEnsono/test-spec-kit"
+  }
+}
