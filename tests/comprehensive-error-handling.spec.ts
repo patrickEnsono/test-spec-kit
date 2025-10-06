@@ -58,10 +58,10 @@ test.describe('Comprehensive Error Handling', () => {
 
     // Verify the app handles corruption gracefully
     // Should either show error message or empty state, but not crash
-    
+
     // Main test: verify navigation still works (app didn't crash)
     await expect(page.locator('[data-testid="search-input"]')).toBeVisible();
-    
+
     // Verify page is functional
     await page.fill('[data-testid="search-input"]', 'test');
     await expect(page.locator('[data-testid="search-input"]')).toHaveValue('test');
@@ -226,7 +226,7 @@ test.describe('Comprehensive Error Handling', () => {
 
       // Verify the app doesn't crash with special characters
       await expect(page.locator('body')).toBeVisible();
-      
+
       // Wait a moment for any errors to surface
       await page.waitForTimeout(500);
     }

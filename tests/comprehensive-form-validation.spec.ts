@@ -73,7 +73,7 @@ test.describe('Comprehensive Form Validation', () => {
     await page.evaluate(() => {
       const form = 'document.querySelector("form")';
       if (form) {
-        eval(form + ".dispatchEvent(new Event(\"submit\", { cancelable: true, bubbles: true }))");
+        eval(form + '.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))');
       }
     });
 
@@ -94,19 +94,21 @@ test.describe('Comprehensive Form Validation', () => {
     await page.fill('[data-testid="name-input"]', `First User ${baseTimestamp}`);
     await page.fill('[data-testid="email-input"]', duplicateEmail);
     await page.fill('[data-testid="title-input"]', 'Developer');
-    
+
     // Add required project for first profile
     await page.click('[data-testid="add-project-btn"]');
     await page.waitForSelector('.project-card', { timeout: 5000 });
     const firstProjectCard = page.locator('.project-card').first();
     await firstProjectCard.locator('input[placeholder*="project name"]').fill('First Project');
-    await firstProjectCard.locator('textarea[placeholder*="Describe the project"]').fill('First project description');
+    await firstProjectCard
+      .locator('textarea[placeholder*="Describe the project"]')
+      .fill('First project description');
     await firstProjectCard.locator('input[placeholder*="React, Node.js"]').fill('JavaScript');
 
     await page.evaluate(() => {
       const form = 'document.querySelector("form")';
       if (form) {
-        eval(form + ".dispatchEvent(new Event(\"submit\", { cancelable: true, bubbles: true }))");
+        eval(form + '.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))');
       }
     });
 
@@ -118,24 +120,28 @@ test.describe('Comprehensive Form Validation', () => {
     await page.fill('[data-testid="name-input"]', `Second User ${baseTimestamp}`);
     await page.fill('[data-testid="email-input"]', duplicateEmail);
     await page.fill('[data-testid="title-input"]', 'Designer');
-    
+
     // Add required project for second profile
     await page.click('[data-testid="add-project-btn"]');
     await page.waitForSelector('.project-card', { timeout: 5000 });
     const secondProjectCard = page.locator('.project-card').first();
     await secondProjectCard.locator('input[placeholder*="project name"]').fill('Second Project');
-    await secondProjectCard.locator('textarea[placeholder*="Describe the project"]').fill('Second project description');
+    await secondProjectCard
+      .locator('textarea[placeholder*="Describe the project"]')
+      .fill('Second project description');
     await secondProjectCard.locator('input[placeholder*="React, Node.js"]').fill('Python');
 
     await page.evaluate(() => {
       const form = 'document.querySelector("form")';
       if (form) {
-        eval(form + ".dispatchEvent(new Event(\"submit\", { cancelable: true, bubbles: true }))");
+        eval(form + '.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))');
       }
     });
 
     // Verify duplicate email error
-    await expect(page.locator('.form-messages')).toContainText('A team member with this email address already exists');
+    await expect(page.locator('.form-messages')).toContainText(
+      'A team member with this email address already exists'
+    );
   });
 
   test('should handle dynamic skills addition and removal', async ({ page }) => {
@@ -158,24 +164,26 @@ test.describe('Comprehensive Form Validation', () => {
     await page.waitForSelector('.project-card', { timeout: 5000 });
     const projectCard = page.locator('.project-card').first();
     await projectCard.locator('input[placeholder*="project name"]').fill('Test Project');
-    await projectCard.locator('textarea[placeholder*="Describe the project"]').fill('Test description');
+    await projectCard
+      .locator('textarea[placeholder*="Describe the project"]')
+      .fill('Test description');
     await projectCard.locator('input[placeholder*="React, Node.js"]').fill('JavaScript');
 
     // Submit form using manual submission
     await page.evaluate(() => {
       const form = 'document.querySelector("form")';
       if (form) {
-        eval(form + ".dispatchEvent(new Event(\"submit\", { cancelable: true, bubbles: true }))");
+        eval(form + '.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))');
       }
     });
-    
+
     // Wait for either success or error message
     await page.waitForTimeout(2000);
-    
+
     // Check for error messages first
     const errorMessage = await page.locator('.form-messages').textContent();
     console.log('Form message:', errorMessage);
-    
+
     // Check if submission was successful or if there's an error
     const hasError = await page.locator('.form-messages.error').isVisible();
     if (hasError) {
@@ -186,7 +194,8 @@ test.describe('Comprehensive Form Validation', () => {
     // Wait for success message - if this works, skills addition is successful
     await page.waitForSelector('.form-messages:not(.hidden)', { timeout: 5000 });
     await expect(page.locator('.form-messages')).toContainText('Profile created successfully');
-  });  test('should handle dynamic project cards addition', async ({ page }) => {
+  });
+  test('should handle dynamic project cards addition', async ({ page }) => {
     const uniqueTimestamp = Date.now();
 
     // Fill basic required fields
@@ -195,7 +204,7 @@ test.describe('Comprehensive Form Validation', () => {
 
     // Get initial project card count
     const initialProjectCount = await page.locator('.project-card').count();
-    
+
     // Add multiple projects
     const projects = [
       { name: 'E-commerce Site', description: 'Online shopping platform', tech: 'React, Express' },
@@ -250,7 +259,7 @@ test.describe('Comprehensive Form Validation', () => {
     await page.evaluate(() => {
       const form = 'document.querySelector("form")';
       if (form) {
-        eval(form + ".dispatchEvent(new Event(\"submit\", { cancelable: true, bubbles: true }))");
+        eval(form + '.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))');
       }
     });
 
@@ -262,7 +271,7 @@ test.describe('Comprehensive Form Validation', () => {
       // Check for either title validation or project validation
       const hasJobTitleError = hasErrors.includes('Job title is required');
       const hasProjectError = hasErrors.includes('At least one project is required');
-      
+
       // At least one validation error should be present
       expect(hasJobTitleError || hasProjectError).toBeTruthy();
     }
@@ -319,7 +328,7 @@ test.describe('Comprehensive Form Validation', () => {
     await page.evaluate(() => {
       const form = 'document.querySelector("form")';
       if (form) {
-        eval(form + ".dispatchEvent(new Event(\"submit\", { cancelable: true, bubbles: true }))");
+        eval(form + '.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))');
       }
     });
 
@@ -352,7 +361,7 @@ test.describe('Comprehensive Form Validation', () => {
     await page.evaluate(() => {
       const form = 'document.querySelector("form")';
       if (form) {
-        eval(form + ".dispatchEvent(new Event(\"submit\", { cancelable: true, bubbles: true }))");
+        eval(form + '.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))');
       }
     });
 

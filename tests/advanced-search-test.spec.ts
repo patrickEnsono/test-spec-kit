@@ -41,7 +41,7 @@ test.describe('Advanced Search Functionality', () => {
     // Wait for search results with more lenient timeout
     try {
       await page.waitForSelector('.search-result-item', { timeout: 5000 });
-      
+
       // Verify title match badge appears (if your app has this feature)
       const titleBadge = page.locator('.match-badge.title');
       if (await titleBadge.isVisible()) {
@@ -68,7 +68,7 @@ test.describe('Advanced Search Functionality', () => {
     // Wait for search results with more lenient approach
     try {
       await page.waitForSelector('.search-result-item', { timeout: 5000 });
-      
+
       // Verify skills match badge appears (if available)
       const skillsBadge = page.locator('.match-badge.skills');
       if (await skillsBadge.isVisible()) {
@@ -101,7 +101,7 @@ test.describe('Advanced Search Functionality', () => {
     // Wait for search results with graceful handling
     try {
       await page.waitForSelector('.search-result-item', { timeout: 5000 });
-      
+
       // Verify projects match badge appears (if available)
       const projectsBadge = page.locator('.match-badge.projects');
       if (await projectsBadge.isVisible()) {
@@ -239,11 +239,11 @@ test.describe('Advanced Search Functionality', () => {
       // If no results are found, that's also valid - just verify app stability
       const searchInput = page.locator('[data-testid="search-input"]');
       await expect(searchInput).toBeVisible();
-      
+
       // Verify the search input still has the searched value
       const inputValue = await searchInput.inputValue();
       expect(inputValue).toBe('QA');
-      
+
       console.log('No search results found for QA, but search functionality is working');
     }
   });
