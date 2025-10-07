@@ -1,6 +1,28 @@
-# 📚 API Documentation
+# 📚 Documentation
 
-This directory contains comprehensive API documentation for the Ensono QA Team Management system.
+This directory contains comprehensive documentation for the test-spec-kit project.
+
+## 📁 Directory Structure
+
+```
+docs/
+├── README.md                    # This file - Documentation overview
+├── prompts/                     # AI prompt documentation
+│   ├── README.md               # Prompts overview and index
+│   ├── PLAYWRIGHT_PROMPTS.md   # 10 specialized test generation prompts
+│   └── PLAYWRIGHT_TEST_GENERATION.md  # AI assistant guidelines
+├── api-documentation.yaml      # OpenAPI specification (YAML)
+├── api-documentation.json      # OpenAPI specification (JSON)
+└── index.html                 # Interactive Swagger UI documentation
+```
+
+## 🎭 AI Prompt Documentation
+
+The **`prompts/`** directory contains comprehensive AI prompts for generating Playwright tests:
+
+- **[prompts/README.md](./prompts/README.md)** - Complete overview and index
+- **[prompts/PLAYWRIGHT_TEST_GENERATION.md](./prompts/PLAYWRIGHT_TEST_GENERATION.md)** - Primary AI assistant guidelines
+- **[prompts/PLAYWRIGHT_PROMPTS.md](./prompts/PLAYWRIGHT_PROMPTS.md)** - 10 specialized testing prompts
 
 ## 📋 Available Documentation Formats
 
