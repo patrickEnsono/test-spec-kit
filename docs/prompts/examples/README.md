@@ -12,12 +12,14 @@ This directory will contain example implementations and use cases for the AI pro
 ## 🎯 Planned Content
 
 ### Example Implementations
+
 - Form testing examples using prompt #2
 - Search integration examples using prompt #3
 - Error handling examples using prompt #4
 - End-to-end journey examples using prompt #10
 
 ### Use Case Studies
+
 - Converting manual tests to automated using prompts
 - Migrating to Page Object Model with prompt #7
 - Performance testing implementation with prompt #8
@@ -25,4 +27,4 @@ This directory will contain example implementations and use cases for the AI pro
 
 ---
 
-*This directory structure is prepared for future expansion of the prompt documentation.*
+_This directory structure is prepared for future expansion of the prompt documentation._

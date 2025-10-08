@@ -1,6 +1,6 @@
-# 🎭 Playwright Test Suite Prompts
+# � Scenario-Specific Playwright Test Prompts
 
-This document contains AI prompts specifically designed for generating Playwright tests based on the patterns, best practices, and architecture established in the test-spec-kit project.
+This document contains 11 specialized AI prompts designed for generating Playwright tests for specific testing scenarios, based on the patterns, best practices, and architecture established in the test-spec-kit project.
 
 ## 📋 Table of Contents
 
@@ -14,6 +14,7 @@ This document contains AI prompts specifically designed for generating Playwrigh
 8. [Performance Testing](#8-performance-testing-prompt)
 9. [Mobile/Responsive Testing](#9-mobileresponsive-testing-prompt)
 10. [End-to-End User Journey](#10-end-to-end-user-journey-prompt)
+11. [WCAG 2.1 AA Accessibility Testing](#11-wcag-21-aa-accessibility-testing-prompt)
 
 ---
 
@@ -435,6 +436,261 @@ When using these prompts, aim for:
 - ✅ **Accessibility** - Works across devices and input methods
 - ✅ **Security** - Input validation and XSS prevention
 
+---
+
+## 11. WCAG 2.1 AA Accessibility Testing Prompt
+
+```
+
+Generate comprehensive Playwright accessibility tests that verify WCAG 2.1 AA compliance for [PAGE/COMPONENT_NAME] using industry-standard accessibility testing patterns:
+
+**Required WCAG 2.1 AA Testing Areas:**
+
+**1. Keyboard Navigation & Focus Management:**
+
+- Tab order verification: `await page.keyboard.press('Tab')` and check focus indicators
+- Skip links functionality: Test "Skip to main content" links
+- Focus trap in modals/dialogs: Verify focus doesn't escape interactive components
+- Focus restoration: Test focus returns to trigger element after closing modals
+- No keyboard traps: Ensure all interactive elements are accessible via keyboard
+
+**2. Screen Reader Compatibility:**
+
+- ARIA labels and descriptions: `expect(await page.locator('[role="button"]').getAttribute('aria-label')).toBeTruthy()`
+- Landmark roles: Verify main, navigation, banner, contentinfo roles exist
+- Heading structure: Test logical h1-h6 hierarchy without skipping levels
+- Live regions: Test aria-live announcements for dynamic content
+- Form labeling: Verify all inputs have associated labels or aria-labelledby
+
+**3. Color Contrast & Visual Accessibility:**
+
+- Text contrast ratios: Test minimum 4.5:1 for normal text, 3:1 for large text
+- Interactive element contrast: Test 3:1 minimum for UI components
+- Color independence: Verify information isn't conveyed by color alone
+- Focus indicators: Test visible focus rings meet 3:1 contrast ratio
+- Non-text contrast: Icons and graphics meet accessibility requirements
+
+**4. Responsive & Zoom Accessibility:**
+
+- 200% zoom functionality: Test content remains usable at 200% zoom
+- Mobile accessibility: Test touch targets are minimum 44x44px
+- Horizontal scrolling: Verify no horizontal scroll at 320px width
+- Content reflow: Test content adapts without loss of information
+
+**5. Error Handling & Form Accessibility:**
+
+- Error identification: Test aria-invalid and error message association
+- Error suggestions: Verify helpful error correction suggestions
+- Required field indicators: Test aria-required and visual indicators
+- Input purpose identification: Test autocomplete attributes where appropriate
+
+**Test Implementation Patterns:**
+
+```typescript
+import { test, expect } from '@playwright/test';
+
+test.describe('WCAG 2.1 AA Accessibility Compliance', () => {
+  test('keyboard navigation and focus management', async ({ page }) => {
+    await page.goto('/your-page');
+
+    // Test tab order
+    const focusableElements = await page
+      .locator('button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])')
+      .all();
+
+    for (let i = 0; i < focusableElements.length; i++) {
+      await page.keyboard.press('Tab');
+      const activeElement = await page.evaluate(() =>
+        document.activeElement?.tagName.toLowerCase()
+      );
+      expect(activeElement).toBeTruthy();
+    }
+
+    // Test skip links
+    await page.keyboard.press('Tab');
+    const skipLink = page.locator('[href="#main-content"]').first();
+    await expect(skipLink).toBeVisible();
+    await skipLink.click();
+    const mainContent = await page.locator('#main-content').isVisible();
+    expect(mainContent).toBe(true);
+  });
+
+  test('ARIA labels and semantic structure', async ({ page }) => {
+    await page.goto('/your-page');
+
+    // Test landmark roles
+    await expect(page.locator('[role="main"], main')).toBeVisible();
+    await expect(page.locator('[role="navigation"], nav')).toBeVisible();
+
+    // Test heading hierarchy
+    const headings = await page.locator('h1, h2, h3, h4, h5, h6').all();
+    let previousLevel = 0;
+
+    for (const heading of headings) {
+      const tagName = await heading.evaluate(el => el.tagName.toLowerCase());
+      const currentLevel = parseInt(tagName.charAt(1));
+      expect(currentLevel).toBeLessThanOrEqual(previousLevel + 1);
+      previousLevel = currentLevel;
+    }
+
+    // Test form labels
+    const inputs = await page.locator('input:not([type="hidden"])').all();
+    for (const input of inputs) {
+      const hasLabel = await input.evaluate(el => {
+        const id = el.id;
+        const ariaLabel = el.getAttribute('aria-label');
+        const ariaLabelledby = el.getAttribute('aria-labelledby');
+        const label = id ? document.querySelector(`label[for="${id}"]`) : null;
+        return !!(ariaLabel || ariaLabelledby || label);
+      });
+      expect(hasLabel).toBe(true);
+    }
+  });
+
+  test('color contrast and visual accessibility', async ({ page }) => {
+    await page.goto('/your-page');
+
+    // Test focus indicators are visible
+    const buttons = await page.locator('button').all();
+    for (const button of buttons) {
+      await button.focus();
+      const focusVisible = await button.evaluate(el => {
+        const styles = window.getComputedStyle(el, ':focus');
+        return styles.outline !== 'none' || styles.boxShadow !== 'none';
+      });
+      expect(focusVisible).toBe(true);
+    }
+
+    // Test minimum touch target sizes on mobile
+    await page.setViewportSize({ width: 375, height: 667 });
+    const interactiveElements = await page.locator('button, input, select, a[href]').all();
+
+    for (const element of interactiveElements) {
+      const box = await element.boundingBox();
+      if (box) {
+        expect(box.width).toBeGreaterThanOrEqual(44);
+        expect(box.height).toBeGreaterThanOrEqual(44);
+      }
+    }
+  });
+
+  test('screen reader announcements and live regions', async ({ page }) => {
+    await page.goto('/your-page');
+
+    // Test live regions exist for dynamic content
+    const liveRegions = await page.locator('[aria-live]').count();
+    expect(liveRegions).toBeGreaterThan(0);
+
+    // Test status messages have appropriate roles
+    await expect(
+      page.locator('[role="status"], [role="alert"], [aria-live="polite"], [aria-live="assertive"]')
+    ).toBeVisible();
+
+    // Test form error announcements
+    const form = page.locator('form').first();
+    if (await form.isVisible()) {
+      await form.locator('input[required]').first().fill('');
+      await form.locator('button[type="submit"]').click();
+
+      const errorMessage = await page.locator('[role="alert"], .error-message').first();
+      await expect(errorMessage).toBeVisible();
+
+      const hasAriaDescribedby = await page
+        .locator('input[required]')
+        .first()
+        .getAttribute('aria-describedby');
+      expect(hasAriaDescribedby).toBeTruthy();
+    }
+  });
+
+  test('responsive accessibility and zoom support', async ({ page }) => {
+    await page.goto('/your-page');
+
+    // Test 200% zoom
+    await page.evaluate(() => {
+      document.body.style.zoom = '200%';
+    });
+
+    // Verify content is still usable
+    await expect(page.locator('main')).toBeVisible();
+    await expect(page.locator('button').first()).toBeVisible();
+
+    // Test 320px viewport (mobile accessibility)
+    await page.setViewportSize({ width: 320, height: 568 });
+
+    // Verify no horizontal scrolling
+    const hasHorizontalScroll = await page.evaluate(() => {
+      return document.documentElement.scrollWidth > document.documentElement.clientWidth;
+    });
+    expect(hasHorizontalScroll).toBe(false);
+  });
+
+  test('error prevention and recovery', async ({ page }) => {
+    await page.goto('/your-page');
+
+    // Test form validation provides helpful error messages
+    const form = page.locator('form').first();
+    if (await form.isVisible()) {
+      const emailInput = form.locator('input[type="email"]').first();
+      if (await emailInput.isVisible()) {
+        await emailInput.fill('invalid-email');
+        await form.locator('button[type="submit"]').click();
+
+        // Check for descriptive error message
+        const errorMessage = await page.locator('[role="alert"], .error-message').textContent();
+        expect(errorMessage?.toLowerCase()).toContain('email');
+
+        // Test error is associated with input
+        const ariaDescribedby = await emailInput.getAttribute('aria-describedby');
+        expect(ariaDescribedby).toBeTruthy();
+      }
+    }
+  });
+});
+```
+
+**Automated Accessibility Testing Integration:**
+
+- Use @axe-core/playwright for automated WCAG scanning
+- Integrate Pa11y for command-line accessibility testing
+- Add Lighthouse accessibility audits to CI/CD pipeline
+- Test with actual screen readers (NVDA, JAWS, VoiceOver) when possible
+
+**Manual Testing Checklist:**
+
+- Navigate entire application using only keyboard
+- Test with screen reader software
+- Verify at 200% browser zoom
+- Test with high contrast mode enabled
+- Validate with users who have disabilities
+
+**WCAG 2.1 AA Success Criteria Coverage:**
+
+- ✅ 1.3.1 Info and Relationships
+- ✅ 1.4.3 Contrast (Minimum)
+- ✅ 2.1.1 Keyboard accessible
+- ✅ 2.1.2 No Keyboard Trap
+- ✅ 2.4.1 Bypass Blocks
+- ✅ 2.4.3 Focus Order
+- ✅ 2.4.6 Headings and Labels
+- ✅ 2.4.7 Focus Visible
+- ✅ 3.1.1 Language of Page
+- ✅ 3.2.1 On Focus
+- ✅ 3.2.2 On Input
+- ✅ 3.3.1 Error Identification
+- ✅ 3.3.2 Labels or Instructions
+- ✅ 4.1.1 Parsing
+- ✅ 4.1.2 Name, Role, Value
+
+````
+
+**Dependencies to Install:**
+```bash
+npm install --save-dev @axe-core/playwright pa11y lighthouse
+````
+
+**Use Case:** Essential for ensuring your application meets accessibility standards and is usable by people with disabilities. Required for government projects, enterprise applications, and inclusive design practices.
+
 ## 🚀 Continuous Improvement
 
 These prompts evolve with our testing practices. When you discover new patterns or improve existing ones:
@@ -446,5 +702,8 @@ These prompts evolve with our testing practices. When you discover new patterns 
 
 ---
 
-*Generated for test-spec-kit project - A comprehensive QA team profile management application with 45 Playwright tests and full CI/CD integration.*
+_Generated for test-spec-kit project - A comprehensive QA team profile management application with 45 Playwright tests and full CI/CD integration._
+
+```
+
 ```

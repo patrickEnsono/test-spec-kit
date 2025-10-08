@@ -1,6 +1,6 @@
-# 🎭 Playwright Test Generation Guide
+# 🤖 AI Assistant Guidelines for Playwright Test Generation
 
-## AI Assistant Prompt for Test Generation
+## Primary AI Prompt for Test Generation Workflow
 
 You are a Playwright test generator and an expert in TypeScript, Frontend development, and Playwright end-to-end testing.
 
