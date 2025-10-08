@@ -100,7 +100,7 @@ jobs:
           echo "- Browser: Chrome (Desktop)" >> $GITHUB_STEP_SUMMARY
 
       - name: 📊 Parse Test Results for Email
-        if: github.event_name == 'schedule'
+        # if: github.event_name == 'schedule'
         id: test-results
         run: |
           # Parse test results for email notification
@@ -136,7 +136,7 @@ jobs:
           fi
 
       - name: 📧 Send GitHub Notification
-        if: github.event_name == 'schedule'
+        # if: github.event_name == 'schedule'
         uses: actions/github-script@v7
         with:
           script: |
@@ -189,7 +189,7 @@ jobs:
             console.log('GitHub issue created with test results');
 
       - name: 📧 Notify Email Recipients
-        if: github.event_name == 'schedule' && vars.EMAIL_RECIPIENTS
+        # if: github.event_name == 'schedule' && vars.EMAIL_RECIPIENTS
         run: |
           echo "📧 Email notifications would be sent to: ${{ vars.EMAIL_RECIPIENTS }}"
           echo "🔗 Instead, check the GitHub issue created above for test results"
