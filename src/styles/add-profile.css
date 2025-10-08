@@ -184,7 +184,7 @@
 }
 
 .add-skill-btn {
-  background: var(--secondary-color, #28a745);
+  background: var(--secondary-color, #1e7e34);
   color: white;
   border: none;
   padding: 0.75rem 1rem;
@@ -195,7 +195,7 @@
 }
 
 .add-skill-btn:hover {
-  background: var(--secondary-dark, #218838);
+  background: var(--secondary-dark, #155724);
 }
 
 .skills-list {

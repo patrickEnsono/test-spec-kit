@@ -442,9 +442,36 @@ When using these prompts, aim for:
 
 ```
 
-Generate comprehensive Playwright accessibility tests that verify WCAG 2.1 AA compliance for [PAGE/COMPONENT_NAME] using industry-standard accessibility testing patterns:
+Generate comprehensive Playwright accessibility tests that verify WCAG 2.1 AA compliance for ALL PAGES/COMPONENTS in the application using industry-standard accessibility testing patterns:
 
-**Required WCAG 2.1 AA Testing Areas:**
+**CRITICAL: Test Complete Application Coverage**
+
+- Test ALL pages in the application (home, forms, profiles, etc.)
+- Use a loop structure to test each page systematically
+- Define APPLICATION_PAGES array with all routes to test
+- Ensure each page passes all WCAG 2.1 AA criteria individually
+
+**Application Pages Coverage Example:**
+
+```typescript
+const APPLICATION_PAGES = [
+  { name: 'Home Page', url: 'http://localhost:3000' },
+  { name: 'Add Profile Page', url: 'http://localhost:3000/add-profile.html' },
+  { name: 'Profile Page', url: 'http://localhost:3000/profile.html' },
+  // Add all your application pages here
+];
+
+for (const pageInfo of APPLICATION_PAGES) {
+  test.describe(`${pageInfo.name} Accessibility Tests`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(pageInfo.url);
+    });
+    // Individual tests for each page
+  });
+}
+```
+
+**Required WCAG 2.1 AA Testing Areas (for EACH page):**
 
 **1. Keyboard Navigation & Focus Management:**
 
@@ -689,7 +716,7 @@ test.describe('WCAG 2.1 AA Accessibility Compliance', () => {
 npm install --save-dev @axe-core/playwright pa11y lighthouse
 ````
 
-**Use Case:** Essential for ensuring your application meets accessibility standards and is usable by people with disabilities. Required for government projects, enterprise applications, and inclusive design practices.
+**Use Case:** Essential for ensuring your ENTIRE application meets accessibility standards and is usable by people with disabilities across ALL pages and user journeys. Tests every page systematically to ensure complete WCAG 2.1 AA compliance. Required for government projects, enterprise applications, and inclusive design practices.
 
 ## 🚀 Continuous Improvement
 

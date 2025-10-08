@@ -166,9 +166,10 @@ class AddProfileManager {
         <button type="button" class="remove-project" data-testid="remove-project-${project.id}" title="Remove project">×</button>
         <div class="project-grid">
           <div class="form-group">
-            <label>Project Name *</label>
+            <label for="project-name-${project.id}">Project Name *</label>
             <input 
               type="text" 
+              id="project-name-${project.id}"
               value="${this.escapeHtml(project.name)}" 
               data-testid="project-name-${project.id}"
               placeholder="Enter project name"
@@ -176,9 +177,10 @@ class AddProfileManager {
             />
           </div>
           <div class="form-group">
-            <label>Technologies</label>
+            <label for="project-technologies-${project.id}">Technologies</label>
             <input 
               type="text" 
+              id="project-technologies-${project.id}"
               value="${this.escapeHtml(project.technologies)}"
               data-testid="project-technologies-${project.id}"
               placeholder="e.g., React, Node.js, MongoDB"
@@ -186,17 +188,19 @@ class AddProfileManager {
           </div>
         </div>
         <div class="form-group">
-          <label>Description</label>
+          <label for="project-description-${project.id}">Description</label>
           <textarea 
+            id="project-description-${project.id}"
             rows="3"
             data-testid="project-description-${project.id}"
             placeholder="Describe the project and your role..."
           >${this.escapeHtml(project.description)}</textarea>
         </div>
         <div class="form-group">
-          <label>Project Link</label>
+          <label for="project-link-${project.id}">Project Link</label>
           <input 
             type="url" 
+            id="project-link-${project.id}"
             value="${this.escapeHtml(project.link)}"
             data-testid="project-link-${project.id}"
             placeholder="https://github.com/username/project"
