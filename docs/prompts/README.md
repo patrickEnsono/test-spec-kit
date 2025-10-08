@@ -5,11 +5,13 @@ This directory contains comprehensive AI prompts and documentation for generatin
 ## 🎯 File Purposes
 
 ### 🤖 **AI_ASSISTANT_GUIDELINES.md**
+
 **Purpose**: Primary workflow guide for AI assistants  
 **Contains**: Step-by-step test generation process, best practices, MCP server usage patterns  
 **Use When**: Setting up AI assistants for test generation work
 
-### 🎯 **SCENARIO_SPECIFIC_PROMPTS.md** 
+### 🎯 **SCENARIO_SPECIFIC_PROMPTS.md**
+
 **Purpose**: Ready-to-use prompts for specific testing scenarios  
 **Contains**: 11 specialized prompts (forms, search, accessibility, performance, etc.)  
 **Use When**: You need tests for a specific scenario and want proven patterns
