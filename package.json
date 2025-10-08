@@ -20,6 +20,7 @@
     "test:app": "npm run serve & sleep 2 && npm run test && pkill -f http-server"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
     "@playwright/test": "^1.55.1",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",

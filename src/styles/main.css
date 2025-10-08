@@ -73,9 +73,9 @@ header h1 a {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 30px;
-  height: 25px;
-  padding: 0;
+  width: 44px; /* Increased to meet WCAG minimum touch target */
+  height: 44px; /* Increased to meet WCAG minimum touch target */
+  padding: 8px; /* Added padding to maintain visual appearance */
   transition: transform 0.3s ease;
 }
 
@@ -84,11 +84,12 @@ header h1 a {
 }
 
 .burger-line {
-  width: 100%;
+  width: 28px; /* Adjusted for new button size */
   height: 3px;
   background-color: white;
   transition: all 0.3s ease;
   border-radius: 2px;
+  margin: 0 auto; /* Center the lines */
 }
 
 .burger-menu.active .burger-line:nth-child(1) {
@@ -123,7 +124,7 @@ header h1 a {
 }
 
 .mobile-nav {
-  background: rgba(102, 126, 234, 0.95);
+  background: rgba(51, 51, 51, 0.95); /* Changed to darker background for better contrast */
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   position: fixed;
@@ -157,19 +158,22 @@ header h1 a {
 
 .mobile-nav-links a {
   display: block;
-  color: white;
+  color: #ffffff; /* Pure white for maximum contrast */
   text-decoration: none;
   padding: 1.5rem 2rem;
   font-weight: 500;
   font-size: 1.1rem;
   transition: all 0.3s ease;
   border-left: 4px solid transparent;
+  min-height: 44px; /* Ensure minimum touch target size */
+  display: flex;
+  align-items: center;
 }
 
 .mobile-nav-links a:hover,
 .mobile-nav-links a.active {
   background-color: rgba(255, 255, 255, 0.2);
-  border-left: 4px solid white;
+  border-left: 4px solid #ffffff;
   transform: translateX(5px);
 }
 
@@ -181,13 +185,12 @@ header h1 a {
 }
 
 .mobile-nav-header h3 {
-  color: white;
+  color: #ffffff; /* Pure white for maximum contrast */
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0;
   text-align: center;
   letter-spacing: 0.5px;
-  opacity: 0.9;
 }
 
 /* Main Content */
